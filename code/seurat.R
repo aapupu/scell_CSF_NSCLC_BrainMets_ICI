@@ -16,6 +16,7 @@ DefaultAssay(s_qc.combined) <- "integrated"
 s_qc.combined <- ScaleData(s_qc.combined, verbose = FALSE, vars.to.regress =c("nFeature_RNA", "nCount_RNA", "percent.mt"))
 s_qc.combined <- RunPCA(s_qc.combined, npcs = 30, verbose = FALSE)
 
-s_qc.combined <- RunUMAP(s_qc.combined, reduction = "pca", dims = 1:30)
+s_qc.combined <- RunTSNE(s_qc.combined, reduction = "pca", dims = 1:30)
+# s_qc.combined <- RunUMAP(s_qc.combined, reduction = "pca", dims = 1:30)
 s_qc.combined <- FindNeighbors(s_qc.combined, reduction = "pca", dims = 1:30)
 s_qc.combined <- FindClusters(s_qc.combined)
