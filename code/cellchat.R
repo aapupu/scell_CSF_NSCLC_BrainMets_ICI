@@ -1,6 +1,10 @@
 library(CellChat)
+library(patchwork)
+options(stringsAsFactors = FALSE)
+s_qc.combined_sub <- subset(s_qc.combined,Doublets=='N')
+data.input =GetAssayData(object =s_qc.combined_sub,slot = 'data') # normalized data matrix
+meta = s_qc.combined_sub@meta.data # a dataframe with rownames containing cell mata data
 
-data.input =GetAssayData(object =s_qc.combined_sub,slot = 'data')
 cell.use_CR = rownames(meta)[meta$Group5  == "CR_pre"] # extract the cell names from disease data
 cell.use_NR = rownames(meta)[meta$Group5  == "NR_pre"] # extract the cell names from disease data
 cell.use_NR_post = rownames(meta)[meta$Group5  == "NR_post"] # extract the cell names from disease data
@@ -13,7 +17,7 @@ meta_NR = meta[cell.use_NR, ]
 
 data.input_NR_post = data.input[, cell.use_NR_post]
 meta_NR_post = meta[cell.use_NR_post, ]   
-
+##
 cellchat_CR <- createCellChat(object = data.input_CR, meta = meta_CR, group.by = "Major_Celltype")
 cellchat_NR <- createCellChat(object = data.input_NR, meta = meta_NR, group.by = "Major_Celltype")
 cellchat_NR_post <- createCellChat(object = data.input_NR_post, meta = meta_NR_post, group.by = "Major_Celltype")
@@ -30,7 +34,7 @@ cellchat_NR <- subsetData(cellchat_NR)
 cellchat_NR_post <- subsetData(cellchat_NR_post)
 
 future::plan("multiprocess", workers = 30)
-
+#
 cellchat_CR <- identifyOverExpressedGenes(cellchat_CR)
 cellchat_CR <- identifyOverExpressedInteractions(cellchat_CR)
 
@@ -39,7 +43,7 @@ cellchat_NR <- identifyOverExpressedInteractions(cellchat_NR)
 
 cellchat_NR_post <- identifyOverExpressedGenes(cellchat_NR_post)
 cellchat_NR_post <- identifyOverExpressedInteractions(cellchat_NR_post)
-
+#
 
 cellchat_CR <- computeCommunProb(cellchat_CR)
 cellchat_CR <- filterCommunication(cellchat_CR, min.cells = 10)
@@ -61,9 +65,5 @@ cellchat_NR_post <- aggregateNet(cellchat_NR_post)
 cellchat_CR <- netAnalysis_computeCentrality(cellchat_CR, slot.name = "netP")
 cellchat_NR <- netAnalysis_computeCentrality(cellchat_NR, slot.name = "netP")
 cellchat_NR_post <- netAnalysis_computeCentrality(cellchat_NR_post, slot.name = "netP")
-
-
-
-
 
 
