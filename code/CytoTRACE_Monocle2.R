@@ -3,6 +3,7 @@ cytotraceresult <- CytoTRACE::CytoTRACE(mat = as.matrix(cDC@assays$RNA@counts),n
                                         enableFast = F, batch=as.character(cDC$Batch))
 
 # Monocle2
+library(monocle)
 diff_test_res <- differentialGeneTest(monocle_data,
                                       fullModelFormulaStr = "~Major_Celltype",cores = 20)
 diff_test_res <- diff_test_res[order(diff_test_res$qval),]
