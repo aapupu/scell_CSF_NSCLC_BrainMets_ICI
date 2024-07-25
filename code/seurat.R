@@ -23,6 +23,6 @@ s_qc.combined <- RunTSNE(s_qc.combined, reduction = "pca", dims = 1:30)
 s_qc.combined <- FindNeighbors(s_qc.combined, reduction = "pca", dims = 1:30)
 s_qc.combined <- FindClusters(s_qc.combined)
 
-# AddModuleScore example
+# Functional gene module score 
 sce <- AddModuleScore(sce,features = list(c('CCL2', 'CCL3', 'CCL4','CCL5', 'CXCL10', 'CXCL9', 'IL1B', 'IL6', 'IL7', 'IL15','IL18')),
                      assay = 'RNA',name = "Inflammatory score")
