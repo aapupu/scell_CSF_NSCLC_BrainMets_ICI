@@ -1,4 +1,5 @@
 # scRNA-seq data processing and clustering
+library(Seurat)
 sce <- CreateSeuratObject(counts = counts, project = 'ICI', min.cells = 3, min.features = 200) 
 sce[["percent.mt"]] <- PercentageFeatureSet(sce, pattern = "^MT-")
 sce <- subset(sce, subset = percent.mt < 25 & nFeature_RNA > 500 & nFeature_RNA < 7000)
