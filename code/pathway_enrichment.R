@@ -1,5 +1,6 @@
 # GO BP
 library(clusterProfiler)
+library(ggplot2)
 GO_result  <-   enrichGO(gene          = CD4_degs$gene[CD4_degs$cluster=='CD4_Trm_CXCR6'],
                          #universe     = row.names(dge.celltype),
                          OrgDb         = 'org.Hs.eg.db',
