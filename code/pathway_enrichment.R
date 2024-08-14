@@ -127,4 +127,4 @@ Group_GSVA <- function(seurat_obj, Group, category='KEGG',compare = compare) {
     )
   return(list(sortdf,p))
 }
-B_kegg1 <- Group_GSVA(seurat_obj = B[,B$Group5 %in% c("CR_pre",'NR_pre')],Group = 'Group5',category = "KEGG",compare = 'CR_pre-NR_pre')
+Mono_kegg <- Group_GSVA(seurat_obj = Mono[,Mono$Group5 %in% c("CR_pre",'NR_pre')],Group = 'Group5',category = "KEGG",compare = 'CR_pre-NR_pre')
