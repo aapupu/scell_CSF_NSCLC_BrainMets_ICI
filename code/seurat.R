@@ -24,5 +24,11 @@ s_qc.combined <- FindNeighbors(s_qc.combined, reduction = "pca", dims = 1:30)
 s_qc.combined <- FindClusters(s_qc.combined)
 
 # Functional gene module score 
-sce <- AddModuleScore(sce,features = list(c('CCL2', 'CCL3', 'CCL4','CCL5', 'CXCL10', 'CXCL9', 'IL1B', 'IL6', 'IL7', 'IL15','IL18')),
-                     assay = 'RNA',name = "Inflammatory score")
+library(AUCell)
+cells_rankings <- AUCell_buildRankings(APC@assays$RNA@data)
+geneglist <- list(AP =gene_list[["Antigen processing and presentation - Homo sapiens (human)"]])
+cells_AUC <- AUCell_calcAUC(geneglist, cells_rankings)
+aucs <- getAUC(cells_AUC)
+aucs_t <- data.frame(t(aucs))
+aucs_t$Celltype <- APC@meta.data[rownames(aucs_t), "Major_Celltype"]
+aucs_t$Group <- APC@meta.data[rownames(aucs_t), "Group"]
